@@ -32,36 +32,6 @@ class Client {
 
 		$request->getQuery()->replace($query);
 
-		$this->signRequest($request);
-
 		return $request->send();
-	}
-
-	protected function signRequest(RequestInterface $request) {
-		$query = $request->getQuery()->getAll();
-		ksort($query);
-
-		$query = http_build_query($query, '', '&');
-		$query = str_replace(array(' ', '+'), '%20', $query);
-
-		$payload = array(
-			$request->getMethod(),
-			$request->getUrl(true)->getPath(),
-			$query
-		);
-
-		if ($request instanceof EntityEnclosingRequestInterface) {
-			$body = $request->getBody();
-
-			if ($body) {
-				$payload[] = $body;
-			}
-		}
-
-		$payload   = implode("\n", $payload);
-		$signature = hash_hmac('sha256', $payload, $this->apiKey);
-
-		$request->setHeader('X-Client', $this->clientID);
-		$request->setHeader('X-Signature', $signature);
 	}
 }
