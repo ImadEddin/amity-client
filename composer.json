@@ -1,0 +1,15 @@
+{
+    "name": "dialogue1/amity-client",
+    "type": "library",
+    "description": "API client for amity",
+    "license": "MIT",
+    "require": {
+        "php": ">=5.3.0",
+        "guzzle/guzzle": "3.9.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "dialogue1\\amity\\API\\": "src/"
+        }
+    }
+}
