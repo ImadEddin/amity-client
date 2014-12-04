@@ -3,7 +3,7 @@
  * Copyright (c) 2014 - Dialogue1 GmbH - MIT licensed
  */
 
-namespace dialogue1\amity\API\Guzzle;
+namespace dialogue1\amity\API;
 
 use Guzzle\Common\Event;
 use Guzzle\Http\Message\EntityEnclosingRequestInterface;

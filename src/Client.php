@@ -5,7 +5,6 @@
 
 namespace dialogue1\amity\API;
 
-use dialogue1\amity\API\Guzzle\RequestSigner;
 use Guzzle\Http\Client as GuzzleHttpClient;
 use Guzzle\Http\ClientInterface;
 use Guzzle\Http\Message\EntityEnclosingRequestInterface;
