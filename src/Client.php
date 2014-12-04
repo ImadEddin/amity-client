@@ -36,6 +36,18 @@ class Client {
 		return new Service\ListService($this);
 	}
 
+	public function getContactListService() {
+		return new Service\ContactListService($this);
+	}
+
+	public function getFolderService() {
+		return new Service\FolderService($this);
+	}
+
+	public function getMailingService() {
+		return new Service\MailingService($this);
+	}
+
 	public function checkConnection() {
 		$this->request('GET', '/');
 		return true;
