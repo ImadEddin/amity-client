@@ -19,8 +19,8 @@ class Client {
 		$this->http = $httpClient;
 	}
 
-	public static function create($host, $clientID, $apiKey) {
-		$guzzle = new GuzzleHttpClient('http://'.$host.'/');
+	public static function create($host, $ssl, $clientID, $apiKey) {
+		$guzzle = new GuzzleHttpClient(($ssl ? 'https' : 'http').'://'.$host.'/');
 		$signer = new RequestSigner($clientID, $apiKey);
 
 		$guzzle->addSubscriber($signer);
