@@ -28,20 +28,32 @@ class Client {
 		return new static($guzzle);
 	}
 
-	public function getContactService() {
-		return new Service\ContactService($this);
+	public function getAssetService() {
+		return new Service\AssetService($this);
 	}
 
-	public function getListService() {
-		return new Service\ListService($this);
+	public function getBounceService() {
+		return new Service\BounceService($this);
 	}
 
 	public function getContactListService() {
 		return new Service\ContactListService($this);
 	}
 
+	public function getContactService() {
+		return new Service\ContactService($this);
+	}
+
+	public function getFileService() {
+		return new Service\FileService($this);
+	}
+
 	public function getFolderService() {
 		return new Service\FolderService($this);
+	}
+
+	public function getListService() {
+		return new Service\ListService($this);
 	}
 
 	public function getMailingService() {
