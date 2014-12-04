@@ -8,8 +8,6 @@ namespace dialogue1\amity\API;
 use Guzzle\Http\Client as GuzzleHttpClient;
 use Guzzle\Http\ClientInterface;
 use Guzzle\Http\Exception as GuzzleEx;
-use Guzzle\Http\Message\EntityEnclosingRequestInterface;
-use Guzzle\Http\Message\RequestInterface;
 use Symfony\Component\HttpKernel\Exception as SymfonyEx;
 
 class Client {
@@ -30,57 +28,30 @@ class Client {
 		return new static($guzzle);
 	}
 
+	public function getContactService() {
+		return new Service\ContactService($this);
+	}
+
+	public function getListService() {
+		return new Service\ListService($this);
+	}
+
 	public function checkConnection() {
 		$this->request('GET', '/');
-
 		return true;
 	}
 
-	public function getContacts($page = null, $size = null, $email = null, $substring = null, $gender = null, $active = null) {
-		$query = array();
+	public function requestData($method, $uri, array $query = array(), array $body = array()) {
+		$response = $this->request($method, $uri, $query, $body);
 
-		if ($page   !== null) $query['page']   = (int) $page;
-		if ($size   !== null) $query['size']   = (int) $size;
-		if ($active !== null) $query['active'] = $active ? 1 : 0;
-
-		if ($gender !== null) {
-			if (!in_array($gender, array('f', 'm', 'x'), true)) {
-				throw new \InvalidArgumentException('$gender must be one of [f, m, x].');
-			}
-
-			$query['gender'] = $gender;
+		if (!is_array($response) || !isset($response['data'])) {
+			throw new SymfonyEx\ServiceUnavailableHttpException(null, 'The API response did not contain a `data` element.');
 		}
 
-		if ($email !== null) {
-			$query['email'] = $email;
-
-			if ($substring) {
-				$query['substring'] = 1;
-			}
-		}
-
-		$data = $this->request('GET', '/contacts', $query);
-
-		return $data['data'];
+		return $response['data'];
 	}
 
-	public function getContact($id) {
-		$data = $this->request('GET', '/contacts/'.$id);
-
-		return $data['data'];
-	}
-
-	public function createContact(array $contactData, array $lists = array(), array $events = array()) {
-		$data = $this->request('POST', '/contacts', array(), array(
-			'contact' => $contactData,
-			'lists'   => $lists,
-			'events'  => $events
-		));
-
-		return $data['data'];
-	}
-
-	protected function request($method, $uri, array $query = array(), array $body = array()) {
+	public function request($method, $uri, array $query = array(), array $body = array()) {
 		$fullUri = '/api/'.self::API_VERSION.$uri;
 		$body    = json_encode($body);
 		$headers = array(
