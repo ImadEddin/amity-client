@@ -36,7 +36,7 @@ class Client {
 		return true;
 	}
 
-	public function getContacts($page = 5000, $size = null, $email = null, $substring = null, $gender = null, $active = null) {
+	public function getContacts($page = null, $size = null, $email = null, $substring = null, $gender = null, $active = null) {
 		$query = array();
 
 		if ($page   !== null) $query['page']   = (int) $page;
