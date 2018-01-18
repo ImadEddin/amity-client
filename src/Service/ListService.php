@@ -29,7 +29,7 @@ class ListService {
 				'folder' => $folderID,
 				'test'   => !!$test
 			),
-			'conacts' => $contactIDs
+			'contacts' => $contactIDs
 		));
 	}
 
